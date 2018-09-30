@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weigh.dao.SysRoleDao">
+	<select id="getAll" resultType="com.weigh.pojo.SysRole">
+		select * from sys_role
+	</select>
+	
+	<insert id="add" parameterType="com.weigh.pojo.SysRole">
+		INSERT INTO `sys_role`(NAME,`available`) VALUE(#{name},#{available})
+	</insert>
+	
+	<select id="getListByCondition" resultType="com.weigh.pojo.SysRole">
+			SELECT * FROM sys_role
+		<where>
+			<if test="condition.name!=null and condition.name!=''">
+				and name like concat('%',#{condition.name},'%')
+			</if>
+		</where>
+		order by ${column} ${orderBy}
+			limit #{start},#{limit}
+	</select>
+
+	
+	<select id="getCountByCondition" resultType="int">
+				SELECT COUNT(1) FROM sys_role
+				<if test="condition.name!=null and condition.name!=''">
+				and name like concat('%',#{condition.name},'%')
+			</if>
+	</select>
+</mapper>
